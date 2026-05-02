@@ -164,5 +164,5 @@ There are some extra tips on how to customize the theme on the [snippets page](h
 - [DesktopHut](https://www.desktophut.com/blue-light-anime-girl-6794): background;
 - [MoeWalls](https://moewalls.com/anime/ken-kaneki-tokyo-ghoul-re-3-live-wallpaper/): background;
 - [MoeWalls](https://moewalls.com/anime/anime-girl-nissan-silvia-live-wallpaper/): background;
-- [iconify.design](https://iconify.design/): icons
+- [iconify.design](https://iconify.design/): icons;
 - [SlientSDDM](https://github.com/uiriansan/SilentSDDM): original author;
