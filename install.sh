@@ -29,14 +29,15 @@ install_dependencies () {
 }
 
 copy_files () {
-    echo -e "${grey}Copying files from '${SHPATH}/' to '${THEMES_DIR}/silent/'...${reset}"
-    sudo mkdir -p ${THEMES_DIR}/silent
-    sudo cp -rf "$SHPATH"/. ${THEMES_DIR}/silent/
+    echo -e "${grey}Copying files from '${SHPATH}/' to '${THEMES_DIR}/windows/'...${reset}"
+    sudo mkdir -p ${THEMES_DIR}/windows
+    sudo cp -rf "$SHPATH"/. ${THEMES_DIR}/windows/
 }
 
 copy_fonts () {
     echo -e "${grey}Copying fonts to '/usr/share/fonts/'...${reset}"
-    sudo cp -r ${THEMES_DIR}/silent/fonts/{redhat,redhat-vf} /usr/share/fonts/
+    sudo cp -r ${THEMES_DIR}/windows/fonts/* /usr/share/fonts/
+    fc-cache -fv
 }
 
 apply_theme () {
@@ -46,9 +47,9 @@ apply_theme () {
         echo -e "${green}Backup for SDDM config saved in '/etc/sddm.conf.bkp'${reset}"
 
         if grep -Pzq '\[Theme\]\nCurrent=' /etc/sddm.conf; then
-            sudo sed -i '/^\[Theme\]$/{N;s/\(Current=\).*/\1silent/;}' /etc/sddm.conf
+            sudo sed -i '/^\[Theme\]$/{N;s/\(Current=\).*/\1windows/;}' /etc/sddm.conf
         else
-            echo -e "\n[Theme]\nCurrent=silent" | sudo tee -a /etc/sddm.conf
+            echo -e "\n[Theme]\nCurrent=windows" | sudo tee -a /etc/sddm.conf
         fi
 
         if ! grep -Pzq 'InputMethod=qtvirtualkeyboard' /etc/sddm.conf; then
@@ -56,13 +57,13 @@ apply_theme () {
         fi
 
         # "InputMethod" was supposed to automatically set "QT_IM_MODULE", but it doesn't, so we manually export it.
-        if ! grep -Pzq 'GreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/silent/components/,QT_IM_MODULE=qtvirtualkeyboard' /etc/sddm.conf; then
-            echo -e "\n[General]\nGreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/silent/components/,QT_IM_MODULE=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
+        if ! grep -Pzq 'GreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/windows/components/,QT_IM_MODULE=qtvirtualkeyboard' /etc/sddm.conf; then
+            echo -e "\n[General]\nGreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/windows/components/,QT_IM_MODULE=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
         fi
     else
-        echo -e "[Theme]\nCurrent=silent" | sudo tee -a /etc/sddm.conf
+        echo -e "[Theme]\nCurrent=windows" | sudo tee -a /etc/sddm.conf
         echo -e "\n[General]\nInputMethod=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
-        echo -e "GreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/silent/components/,QT_IM_MODULE=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
+        echo -e "GreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/windows/components/,QT_IM_MODULE=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
     fi
 }
 
